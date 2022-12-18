@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500;600;700&display=swap');
+
+:root {
+    --bgColor: #F2E8CF;
+    --primary: #C8BFC7;
+    --btnColor: #A7C957;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    border: none;
+}
+
+html {
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    background: var(--bgColor);
+    padding: 2rem 4rem;
+}
+
+header h1 {
+    margin: .5rem 0;
+    text-align: center;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: .5rem 0;
+    border-bottom: 1px solid black;
+}
+
+.addBtn {
+    padding: .5rem 1rem;
+    background-color: var(--btnColor);
+    font-weight: bold;
+    font-size: 1rem;
+    border-radius: 5px;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+section {
+    margin: 1.5rem 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.accounts, .debts, .expenses, .incomes {
+    display: grid;
+    grid-template-columns: repeat(5, 15rem);
+    grid-column-gap: 1em;
+}
+
+.account, .debt,.expense, .income {
+    background: var(--primary);
+    padding: .5rem;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.account > div, .debt > div, .expense > div, .income > div {
+    display: flex;
+    justify-content: space-between;
+}
+
+.account > h3, .debt > h3, .expense > h3, .income > h3 {
+    font-weight: 500;
+    font-size: 1em;
+    margin: 1.5rem 0;
+}
+
+.account > p, .debt > p, .expense > p, .income > p {
+    font-weight: 700;
+    font-size: 1.5em;
+    margin: 1.25rem 0;
+}
+
+footer > h2 {
+    border-bottom: 1px solid black;
+}
+
+.netAmount {
+    background: var(--primary);
+    text-align: center;
+    padding: 1rem;
+    margin: .5rem 0;
+    border-radius: 5px;
+}
+
+.netAmount > p {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
