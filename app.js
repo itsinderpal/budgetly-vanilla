@@ -10,15 +10,18 @@ const editFormDebts = document.querySelector(".editFormDebts");
 const editFormExpenses = document.querySelector(".editFormExpenses");
 const editFormIncomes = document.querySelector(".editFormIncomes");
 
-// storage for articles we add:
-// sections > articles
-
-const state = {
+let state = {
 	account: [],
 	debt: [],
 	expense: [],
 	income: [],
 };
+
+if (localStorage.getItem("budgetly-state")) {
+	state = JSON.parse(localStorage.getItem("budgetly-state"));
+} else {
+	localStorage.setItem("budgetly-state", JSON.stringify(state));
+}
 
 // for toggling the add forms (add button)
 addBtns.forEach((btn) => {
@@ -99,7 +102,7 @@ function checkEmptyAddForm(nameInput, amtInput) {
 // specific function for creating article
 function createArticle(id, sectionClassName, _articleName, _articleAmt) {
 	const article = document.createElement("article");
-	article.className = sectionClassName.toLowerCase(); // account can be replaced with a function parameter
+	article.className = sectionClassName.toLowerCase();
 
 	const firstDiv = document.createElement("div");
 	const checkBoxLabel = document.createElement("label");
@@ -128,9 +131,9 @@ function createArticle(id, sectionClassName, _articleName, _articleAmt) {
 	firstDiv.appendChild(secondDiv);
 
 	const articleName = document.createElement("h3");
-	articleName.textContent = _articleName.value;
+	articleName.textContent = _articleName.value || _articleName;
 	const articleAmt = document.createElement("p");
-	articleAmt.textContent = `$${_articleAmt.value}`; // need to set "-" ahead of negative value
+	articleAmt.textContent = `$${_articleAmt.value || _articleAmt}`; // need to set "-" ahead of negative value
 
 	article.appendChild(firstDiv);
 	article.appendChild(articleName);
@@ -247,9 +250,48 @@ function updateUI(id, name, amt) {
 	const editedArticle = document.getElementById(id).parentNode.parentNode.parentNode;
 	const editedArticleH3 = editedArticle.querySelector("h3");
 	const editedArticleP = editedArticle.querySelector("p");
-    editedArticleH3.textContent = name;
-    editedArticleP.textContent = `$${amt}`;
+	editedArticleH3.textContent = name;
+	editedArticleP.textContent = `$${amt}`;
 }
+
+const sections = document.querySelectorAll(".section");
+
+// get the data, make articles, append accordingly to dom
+function updateAllUI() {
+	const totalArticles = Object.values(state).reduce((length, key) => length + key.length, 0);
+	// need to loop over sections and then articles to create articles, etc
+	if (totalArticles == 0) {
+		return;
+	}
+	const articles = Object.entries(state).reduce((articles, prop) => {
+		if (prop[1].length > 0) {
+			let newArr = prop[1].map((article) => {
+				return { ...article, sectionClassName: prop[0] };
+			});
+			articles.push(...newArr);
+			return articles;
+		}
+		return articles;
+		// loop over the objs in prop[1] and fill sectionclassname in there, right?
+		// make right data structure, array with objects
+		// create articles -> get all info, then loop over, in right order...
+	}, []);
+	if (articles) {
+		articles.map((article) => {
+			const { id, articleName, articleAmt, sectionClassName } = article;
+            const switchConditional = addFormAccounts.className.split(" ")[1].toLowerCase().replace("addform", "")
+			switch (switchConditional) {
+				case (switchConditional):
+					addFormAccounts.before(createArticle(id, sectionClassName, articleName, articleAmt));
+					break;
+			}
+		});
+	}
+}
+
+// function createArticle(id, sectionClassName, _articleName, _articleAmt)
+
+updateAllUI();
 
 function articleReducer(action, section, article) {
 	let _section;
@@ -257,9 +299,11 @@ function articleReducer(action, section, article) {
 		case "add":
 			_section = state[section];
 			_section.push(article);
+			updateLocalStorage(state);
 			break;
 		case "delete":
 			state[section] = state[section].filter((_article) => `del${_article.id}` !== article.id);
+			updateLocalStorage(state);
 			break;
 		case "edit":
 			state[section] = state[section].map((_article) => {
@@ -272,7 +316,13 @@ function articleReducer(action, section, article) {
 				}
 				return _article;
 			});
+			updateLocalStorage(state);
+			break;
 	}
+}
+
+function updateLocalStorage(state) {
+	localStorage.setItem("budgetly-state", JSON.stringify(state));
 }
 
 // calculating net amount
