@@ -18,31 +18,50 @@
         <section>
             <div class="section-header">
                 <h2>Accounts</h2>
-                <button class="addBtn">Add</button>
+                <button class="addBtn addAccountsBtn">Add</button>
             </div>
             <div class="accounts">
                 <article class="account">
                     <div>
-                        <label for="selectItem">
-                            <input type="checkbox" name="selectItem" id="selectItem">
+                        <label for="selectAccountItem">
+                            <input type="checkbox" name="selectItem" id="selectAccountItem">
                         </label>
                         <div>
-                            <span>E</span>
-                            <span>D</span>
+                            <span>E</span><span>D</span>
                         </div>
                     </div>
                     <h3>Cheqing</h3>
                     <p>$1000</p>
+                </article>
+                <article class="addForm addFormAccounts addFormHide">
+                    <div class="addFormInputs">
+                        <div>
+                            <label for="addAccountName">
+                                Name:
+                            </label>
+                            <input type="text" name="addName" id="addAccountName">
+                        </div>
+                        <div>
+                            <label for="addAccountAmt">
+                                Amount:
+                            </label>
+                            <input type="number" name="addAmt" id="addAccountAmt">
+                        </div>
+                    </div>
+                    <div class="addFormBtns">
+                        <button class="addBtn addFormBtn">ADD</button>
+                        <button type="reset" class="addBtn cancelFormBtn">CANCEL</button>
+                    </div>
                 </article>
             </div>
         </section>
         <section>
             <div class="section-header">
                 <h2>Debts</h2>
-                <button class="addBtn">Add</button>
+                <button class="addBtn addDebtsBtn">Add</button>
             </div>
             <div class="debts">
-                <article class="debt">
+                <!-- <article class="debt">
                     <div>
                         <label for="selectItem">
                             <input type="checkbox" name="selectItem" id="selectItem">
@@ -54,16 +73,16 @@
                     </div>
                     <h3>Credit Card</h3>
                     <p>-$1000</p>
-                </article>
+                </article> -->
             </div>
         </section>
         <section>
             <div class="section-header">
                 <h2>Expenses</h2>
-                <button class="addBtn">Add</button>
+                <button class="addBtn addExpensesBtn">Add</button>
             </div>
             <div class="expenses">
-                <article class="expense">
+                <!-- <article class="expense">
                     <div>
                         <label for="selectItem">
                             <input type="checkbox" name="selectItem" id="selectItem">
@@ -75,16 +94,16 @@
                     </div>
                     <h3>Rent</h3>
                     <p>-$700</p>
-                </article>
+                </article> -->
             </div>
         </section>
         <section>
             <div class="section-header">
                 <h2>Incomes</h2>
-                <button class="addBtn">Add</button>
+                <button class="addBtn addIncomesBtn">Add</button>
             </div>
             <div class="incomes">
-                <article class="income">
+                <!-- <article class="income">
                     <div>
                         <label for="selectItem">
                             <input type="checkbox" name="selectItem" id="selectItem">
@@ -96,14 +115,14 @@
                     </div>
                     <h3>Pay</h3>
                     <p>$1000</p>
-                </article>
+                </article> -->
             </div>
         </section>
     </main>
     <footer>
         <h2>Net</h2>
         <div class="netAmount">
-            <p>$3430</p>
+            <p>---</p>
         </div>
     </footer>
 </body>
