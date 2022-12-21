@@ -18,39 +18,59 @@
         <section>
             <div class="section-header">
                 <h2>Accounts</h2>
-                <button class="addBtn addAccountsBtn">Add</button>
+                <button class="btn-primary addAccountsBtn">Add</button>
             </div>
-            <div class="accounts">
-                <article class="account">
+            <div class="accounts section">
+                <!-- <article class="account">
                     <div>
                         <label for="selectAccountItem">
                             <input type="checkbox" name="selectItem" id="selectAccountItem">
                         </label>
                         <div>
-                            <span>E</span><span>D</span>
+                            <span class="editArticleBtn">E</span><span class="delArticleBtn">D</span>
                         </div>
                     </div>
                     <h3>Cheqing</h3>
                     <p>$1000</p>
-                </article>
+                </article> -->
                 <article class="addForm addFormAccounts addFormHide">
                     <div class="addFormInputs">
                         <div>
                             <label for="addAccountName">
                                 Name:
                             </label>
-                            <input type="text" name="addName" id="addAccountName">
+                            <input type="text" name="addName" id="addAccountName" value="a">
                         </div>
                         <div>
                             <label for="addAccountAmt">
                                 Amount:
                             </label>
-                            <input type="number" name="addAmt" id="addAccountAmt">
+                            <input type="number" name="addAmt" id="addAccountAmt" value="10">
                         </div>
                     </div>
                     <div class="addFormBtns">
-                        <button class="addBtn addFormBtn">ADD</button>
-                        <button type="reset" class="addBtn cancelFormBtn">CANCEL</button>
+                        <button class="btn-primary addFormBtn">ADD</button>
+                        <button type="reset" class="btn-primary addCancelFormBtn">CANCEL</button>
+                    </div>
+                </article>
+                <article class="editForm editFormAccounts editFormHide">
+                    <div class="editFormInputs">
+                        <div>
+                            <label for="editAccountName">
+                                Name:
+                            </label>
+                            <input type="text" name="editName" id="editAccountName">
+                        </div>
+                        <div>
+                            <label for="editAccountAmt">
+                                Amount:
+                            </label>
+                            <input type="number" name="editAmt" id="editAccountAmt">
+                        </div>
+                    </div>
+                    <div class="editFormBtns">
+                        <button class="btn-primary editFormBtn">EDIT</button>
+                        <button type="reset" class="btn-primary editCancelFormBtn">CANCEL</button>
                     </div>
                 </article>
             </div>
@@ -58,9 +78,9 @@
         <section>
             <div class="section-header">
                 <h2>Debts</h2>
-                <button class="addBtn addDebtsBtn">Add</button>
+                <button class="btn-primary addDebtsBtn">Add</button>
             </div>
-            <div class="debts">
+            <div class="debts section">
                 <!-- <article class="debt">
                     <div>
                         <label for="selectItem">
@@ -79,9 +99,9 @@
         <section>
             <div class="section-header">
                 <h2>Expenses</h2>
-                <button class="addBtn addExpensesBtn">Add</button>
+                <button class="btn-primary addExpensesBtn">Add</button>
             </div>
-            <div class="expenses">
+            <div class="expenses section">
                 <!-- <article class="expense">
                     <div>
                         <label for="selectItem">
@@ -100,9 +120,9 @@
         <section>
             <div class="section-header">
                 <h2>Incomes</h2>
-                <button class="addBtn addIncomesBtn">Add</button>
+                <button class="btn-primary addIncomesBtn">Add</button>
             </div>
-            <div class="incomes">
+            <div class="incomes section">
                 <!-- <article class="income">
                     <div>
                         <label for="selectItem">

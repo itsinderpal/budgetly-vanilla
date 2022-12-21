@@ -35,7 +35,7 @@ header h1 {
     border-bottom: 1px solid black;
 }
 
-.addBtn {
+.btn-primary {
     padding: .5rem 1rem;
     background-color: var(--btnColor);
     font-weight: bold;
@@ -103,7 +103,7 @@ footer > h2 {
     font-weight: bold;
 }
 
-.addForm {
+.addForm, .editForm {
     background: var(--primary);
     padding: .75rem;
     border-radius: 5px;
@@ -112,14 +112,14 @@ footer > h2 {
     align-items: center;
 }
 
-.addFormInputs > div {
+.addFormInputs > div, .editFormInputs > div {
     display: flex;
     flex-direction: column;
     align-items: start;
     margin: .5rem 0;
 }
 
-.addFormInputs input {
+.addFormInputs input, .editFormInputs input {
     padding: .25rem;
     border-radius: 5px;
     background: var(--bgColor);
@@ -127,15 +127,15 @@ footer > h2 {
     outline: none;
 }
 
-.addFormInputs label {
+.addFormInputs label, .editFormInputs label {
     font-size: .875rem;
 }
 
-.addFormBtn, .cancelFormBtn {
+.addFormBtn, .editFormBtn, .addCancelFormBtn, .editCancelFormBtn {
     padding: .5rem;
     font-size: .75rem;
 }
 
-.addFormHide {
-    /* display: none; */
+.addFormHide, .editFormHide {
+    display: none;
 }
