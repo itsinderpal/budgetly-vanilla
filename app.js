@@ -106,11 +106,11 @@ function createArticle(id, sectionClassName, _articleName, _articleAmt) {
 
 	const firstDiv = document.createElement("div");
 	const checkBoxLabel = document.createElement("label");
-	checkBoxLabel.setAttribute("for", `select${sectionClassName}Item`);
+	checkBoxLabel.setAttribute("for", `check${id}`);
 	const checkBoxInput = document.createElement("input");
 	checkBoxInput.setAttribute("type", "checkbox");
 	checkBoxInput.setAttribute("name", "selectItem");
-	checkBoxInput.setAttribute("id", `select${sectionClassName}Item`);
+	checkBoxInput.setAttribute("id", `check${id}`);
 
 	checkBoxLabel.appendChild(checkBoxInput);
 
@@ -155,20 +155,12 @@ addCancelFormBtn.addEventListener("click", (e) => {
 	}
 });
 
-/*
-next steps that we need to take:
-- make data structures for collecting every article we add
-- so that we can associate a id with them, add them to the structure
-- can edit them easily and can pinpoint exactly where they are
-- can delete them easily also
-*/
-
 // selected main for bubbling and event propagation
 const main = document.querySelector("main");
 
 let currentEditingArticleId;
 
-// editing & deleting articles
+// editing & deleting & checking articles
 main.addEventListener("click", (e) => {
 	if (e.target.closest(".delArticleBtn")) {
 		const articleId = e.target.getAttribute("id");
@@ -184,6 +176,12 @@ main.addEventListener("click", (e) => {
 		currentEditingArticleId = articleId;
 		const article = state[articleSection].find((_article) => `edit${_article.id}` === articleId);
 		toggleEditForm(articleSection, article.articleName, article.articleAmt);
+	}
+	if (e.target.closest("input[type=checkbox]")) {
+		const parentArticle = e.target.parentNode.parentNode.parentNode;
+		const articleSection = parentArticle.className;
+		const articleId = e.target.getAttribute("id");
+		articleReducer("check", articleSection, { articleId });
 	}
 });
 
@@ -279,9 +277,12 @@ function updateAllUI() {
 	if (articles) {
 		articles.map((article) => {
 			const { id, articleName, articleAmt, sectionClassName } = article;
-            const switchConditional = addFormAccounts.className.split(" ")[1].toLowerCase().replace("addform", "")
+			const switchConditional = addFormAccounts.className
+				.split(" ")[1]
+				.toLowerCase()
+				.replace("addform", "");
 			switch (switchConditional) {
-				case (switchConditional):
+				case switchConditional:
 					addFormAccounts.before(createArticle(id, sectionClassName, articleName, articleAmt));
 					break;
 			}
@@ -289,9 +290,11 @@ function updateAllUI() {
 	}
 }
 
-// function createArticle(id, sectionClassName, _articleName, _articleAmt)
-
 updateAllUI();
+
+function updateLocalStorage(state) {
+	localStorage.setItem("budgetly-state", JSON.stringify(state));
+}
 
 function articleReducer(action, section, article) {
 	let _section;
@@ -299,11 +302,9 @@ function articleReducer(action, section, article) {
 		case "add":
 			_section = state[section];
 			_section.push(article);
-			updateLocalStorage(state);
 			break;
 		case "delete":
 			state[section] = state[section].filter((_article) => `del${_article.id}` !== article.id);
-			updateLocalStorage(state);
 			break;
 		case "edit":
 			state[section] = state[section].map((_article) => {
@@ -316,13 +317,20 @@ function articleReducer(action, section, article) {
 				}
 				return _article;
 			});
-			updateLocalStorage(state);
 			break;
+		case "check":
+			state[section] = state[section].map((_article) => {
+				if (`check${_article.id}` !== article.id) {
+					return {
+						..._article,
+						checked: !_article.checked,
+					};
+				}
+				return _article;
+			});
+            break;
 	}
-}
-
-function updateLocalStorage(state) {
-	localStorage.setItem("budgetly-state", JSON.stringify(state));
+	updateLocalStorage(state);
 }
 
 // calculating net amount
