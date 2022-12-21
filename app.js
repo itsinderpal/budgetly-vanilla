@@ -1,20 +1,22 @@
-const addAccountsBtn = document.querySelector(".addAccountsBtn");
-const addDebtsBtn = document.querySelector(".addDebtsBtn");
-const addExpensesBtn = document.querySelector(".addExpensesBtn");
-const addIncomesBtn = document.querySelector(".addIncomesBtn");
-
-const accountsSection = document.querySelector(".accounts");
-const debtsSection = document.querySelector(".debts");
-const expensesSection = document.querySelector(".expenses");
-const incomesSection = document.querySelector(".incomes");
+const addBtns = document.querySelectorAll(".addBtn");
 
 const addFormAccounts = document.querySelector(".addFormAccounts");
 const addFormDebts = document.querySelector(".addFormDebts");
 const addFormExpenses = document.querySelector(".addFormExpenses");
 const addFormIncomes = document.querySelector(".addFormIncomes");
 
+// storage for articles we add:
+// sections > articles
+
+const state = {
+	account: [],
+	debt: [],
+	expense: [],
+	income: [],
+};
+
 // for toggling the add forms (add button)
-[addAccountsBtn, addExpensesBtn, addExpensesBtn, addIncomesBtn].forEach((btn) => {
+addBtns.forEach((btn) => {
 	btn.addEventListener("click", (e) => {
 		const btnClassName = e.target.className.split(" ")[1]; //getting second className
 
@@ -39,15 +41,23 @@ addFormBtn.addEventListener("click", (e) => {
 
 	switch (addFormParentNode) {
 		case addFormAccounts:
-			const isEmptyForm = checkEmptyAddForm(addAccountName, addAccountAmt);
-			if (!isEmptyForm) {
+			const isNotEmptyForm = checkEmptyAddForm(addAccountName, addAccountAmt);
+
+			let newArticleObj = {
+				id: Math.random().toString(36).slice(2, 9),
+				articleName: addAccountName.value,
+				articleAmt: addAccountAmt.value,
+				checked: false,
+			};
+
+			if (isNotEmptyForm) {
+				addArticle("add", "account", newArticleObj);
+				addFormAccounts.before(createArticle("Account", addAccountName, addAccountAmt));
+			} else {
 				setTimeout(() => {
 					addAccountName.style.outline = "none";
 					addAccountAmt.style.outline = "none";
 				}, 2000);
-			}
-			if (isEmptyForm) {
-				addFormAccounts.before(createArticle("Account", addAccountName, addAccountAmt));
 			}
 			break;
 	}
@@ -55,17 +65,18 @@ addFormBtn.addEventListener("click", (e) => {
 
 // check if inputs are empty or not
 function checkEmptyAddForm(nameInput, amtInput) {
+	const outline = "1px solid red";
 	if (!nameInput.value && !amtInput.value) {
-		nameInput.style.outline = "2px solid red";
-		amtInput.style.outline = "2px solid red";
+		nameInput.style.outline = outline;
+		amtInput.style.outline = outline;
 		return false;
 	}
 	if (!nameInput.value) {
-		nameInput.style.outline = "2px solid red";
+		nameInput.style.outline = outline;
 		return false;
 	}
 	if (!amtInput.value) {
-		amtInput.style.outline = "2px solid red";
+		amtInput.style.outline = outline;
 		return false;
 	}
 	return true;
@@ -88,8 +99,10 @@ function createArticle(sectionClassName, _articleName, _articleAmt) {
 
 	const secondDiv = document.createElement("div");
 	const editSpan = document.createElement("span"); // need to work on these controls also
+	editSpan.className = `edit${sectionClassName}Btn`;
 	editSpan.textContent = "E";
 	const delSpan = document.createElement("span"); // need to work on these controls also
+	delSpan.className = `del${sectionClassName}Btn`;
 	delSpan.textContent = "D";
 
 	secondDiv.appendChild(editSpan);
@@ -117,11 +130,24 @@ cancelFormBtn.addEventListener("click", (e) => {
 
 	switch (addFormParentNode) {
 		case addFormAccounts:
-            addAccountName.value = ""
-            addAccountAmt.value = "";
-            addFormAccounts.classList.toggle("addFormHide");
+			addAccountName.value = "";
+			addAccountAmt.value = "";
+			addFormAccounts.classList.toggle("addFormHide");
 	}
 });
 
-//deleting article
+/*
+next steps that we need to take:
+- make data structures for collecting every article we add
+- so that we can associate a id with them, add them to the structure
+- can edit them easily and can pinpoint exactly where they are
+- can delete them easily also
+*/
 
+function articleReducer(action, section, article) {
+	switch (action) {
+		case "add":
+			const _section = state[section];
+			_section.push(article);
+	}
+}
