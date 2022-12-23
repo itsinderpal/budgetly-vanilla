@@ -23,6 +23,13 @@ if (localStorage.getItem("budgetly-state")) {
 	localStorage.setItem("budgetly-state", JSON.stringify(state));
 }
 
+const switchConditionals = {
+	account: "account",
+	debt: "debt",
+	expense: "expense",
+	income: "income",
+};
+
 // for toggling the add forms (add button)
 addBtns.forEach((btn) => {
 	btn.addEventListener("click", (e) => {
@@ -30,8 +37,21 @@ addBtns.forEach((btn) => {
 
 		switch (btnClassName) {
 			case "addAccountsBtn":
-				// clearInputValues();
+				clearInputValues();
 				addFormAccounts.classList.toggle("addFormHide");
+				break;
+			case "addDebtsBtn":
+				clearInputValues();
+				addFormDebts.classList.toggle("addFormHide");
+				break;
+			case "addExpensesBtn":
+				clearInputValues();
+				addFormExpenses.classList.toggle("addFormHide");
+				break;
+			case "addIncomesBtn":
+				clearInputValues();
+				addFormIncomes.classList.toggle("addFormHide");
+				break;
 		}
 	});
 });
@@ -39,45 +59,152 @@ addBtns.forEach((btn) => {
 // main add form inputs
 const addAccountName = document.getElementById("addAccountName");
 const addAccountAmt = document.getElementById("addAccountAmt");
+const addDebtName = document.getElementById("addDebtName");
+const addDebtAmt = document.getElementById("addDebtAmt");
+const addExpenseName = document.getElementById("addExpenseName");
+const addExpenseAmt = document.getElementById("addExpenseName");
+const addIncomeName = document.getElementById("addIncomeName");
+const addIncomeAmt = document.getElementById("addIncomeName");
 
 function clearInputValues() {
 	addAccountName.value = "";
 	addAccountAmt.value = "";
+	addDebtName.value = "";
+	addDebtAmt.value = "";
+	addExpenseName.value = "";
+	addExpenseAmt.value = "";
+	addIncomeName.value = "";
+	addIncomeAmt.value = "";
+}
+
+function randomId() {
+	return Math.random().toString(36).slice(2, 9);
 }
 
 // add form buttons
-const addFormBtn = document.querySelector(".addFormBtn"); // for every single add button on add forms
-const addCancelFormBtn = document.querySelector(".addCancelFormBtn"); // for every single cancel button on add forms
+const addFormBtns = document.querySelectorAll(".addFormBtn"); // for every single add button on add forms
+const addCancelFormBtns = document.querySelectorAll(".addCancelFormBtn"); // for every single cancel button on add forms
 
 // adding article for every section
-addFormBtn.addEventListener("click", (e) => {
-	//check which form is clicked on
-	const addFormParentNode = e.target.parentNode.parentNode;
+addFormBtns.forEach((addFormBtn) => {
+	addFormBtn.addEventListener("click", (e) => {
+		//check which form is clicked on
+		const addFormParentNode = e.target.parentNode.parentNode;
 
-	switch (addFormParentNode) {
-		case addFormAccounts:
-			const isNotEmptyForm = checkEmptyAddForm(addAccountName, addAccountAmt);
+		let isNotEmptyForm;
+		switch (addFormParentNode) {
+			case addFormAccounts:
+				isNotEmptyForm = checkEmptyAddForm(addAccountName, addAccountAmt);
 
-			if (isNotEmptyForm) {
-				const articleId = Math.random().toString(36).slice(2, 9);
-				const articleEl = createArticle(articleId, "Account", addAccountName, addAccountAmt);
+				if (isNotEmptyForm) {
+					const articleId = randomId();
+					const articleEl = createArticle(
+						articleId,
+						"account",
+						addAccountName.value,
+						addAccountAmt.value
+					);
+					let newArticleObj = {
+						id: articleId,
+						articleName: addAccountName.value,
+						articleAmt: addAccountAmt.value,
+						checked: false,
+					};
+					articleReducer("add", "account", newArticleObj);
+					addFormAccounts.before(articleEl);
+					clearInputValues();
+					addFormAccounts.classList.toggle("addFormHide");
+				} else {
+					setTimeout(() => {
+						addAccountName.style.outline = "none";
+						addAccountAmt.style.outline = "none";
+					}, 2000);
+				}
+				break;
+			case addFormDebts:
+				isNotEmptyForm = checkEmptyAddForm(addDebtName, addDebtAmt);
 
-				let newArticleObj = {
-					id: articleId,
-					articleName: addAccountName.value,
-					articleAmt: addAccountAmt.value,
-					checked: false,
-				};
-				articleReducer("add", "account", newArticleObj);
-				addFormAccounts.before(articleEl);
-			} else {
-				setTimeout(() => {
-					addAccountName.style.outline = "none";
-					addAccountAmt.style.outline = "none";
-				}, 2000);
-			}
-			break;
-	}
+				if (isNotEmptyForm) {
+					const articleId = randomId();
+					const articleEl = createArticle(articleId, "debt", addDebtName.value, addDebtAmt.value);
+
+					let newArticleObj = {
+						id: articleId,
+						articleName: addDebtName.value,
+						articleAmt: addDebtAmt.value,
+						checked: false,
+					};
+					articleReducer("add", "debt", newArticleObj);
+					addFormDebts.before(articleEl);
+					clearInputValues();
+					addFormDebts.classList.toggle("addFormHide");
+				} else {
+					setTimeout(() => {
+						addDebtName.style.outline = "none";
+						addDebtAmt.style.outline = "none";
+					}, 2000);
+				}
+				break;
+			case addFormExpenses:
+				isNotEmptyForm = checkEmptyAddForm(addExpenseName, addExpenseAmt);
+
+				if (isNotEmptyForm) {
+					const articleId = randomId();
+					const articleEl = createArticle(
+						articleId,
+						"expense",
+						addExpenseName.value,
+						addExpenseAmt.value
+					);
+
+					let newArticleObj = {
+						id: articleId,
+						articleName: addExpenseName.value,
+						articleAmt: addExpenseAmt.value,
+						checked: false,
+					};
+					articleReducer("add", "expense", newArticleObj);
+					addFormExpenses.before(articleEl);
+					clearInputValues();
+					addFormExpenses.classList.toggle("addFormHide");
+				} else {
+					setTimeout(() => {
+						addExpenseName.style.outline = "none";
+						addExpenseAmt.style.outline = "none";
+					}, 2000);
+				}
+				break;
+			case addFormIncomes:
+				isNotEmptyForm = checkEmptyAddForm(addIncomeName, addIncomeAmt);
+
+				if (isNotEmptyForm) {
+					const articleId = randomId();
+					const articleEl = createArticle(
+						articleId,
+						"income",
+						addIncomeName.value,
+						addIncomeAmt.value
+					);
+
+					let newArticleObj = {
+						id: articleId,
+						articleName: addIncomeName.value,
+						articleAmt: addIncomeAmt.value,
+						checked: false,
+					};
+					articleReducer("add", "income", newArticleObj);
+					addFormIncomes.before(articleEl);
+					clearInputValues();
+					addFormIncomes.classList.toggle("addFormHide");
+				} else {
+					setTimeout(() => {
+						addIncomeName.style.outline = "none";
+						addIncomeAmt.style.outline = "none";
+					}, 2000);
+				}
+				break;
+		}
+	});
 });
 
 // check if inputs are empty or not
@@ -100,9 +227,10 @@ function checkEmptyAddForm(nameInput, amtInput) {
 }
 
 // specific function for creating article
-function createArticle(id, sectionClassName, _articleName, _articleAmt) {
+function createArticle(id, sectionClassName, _articleName, _articleAmt, checked = false) {
 	const article = document.createElement("article");
-	article.className = sectionClassName.toLowerCase();
+	article.className = sectionClassName;
+	article.setAttribute("id", id);
 
 	const firstDiv = document.createElement("div");
 	const checkBoxLabel = document.createElement("label");
@@ -111,6 +239,9 @@ function createArticle(id, sectionClassName, _articleName, _articleAmt) {
 	checkBoxInput.setAttribute("type", "checkbox");
 	checkBoxInput.setAttribute("name", "selectItem");
 	checkBoxInput.setAttribute("id", `check${id}`);
+	checked
+		? checkBoxInput.setAttribute("checked", checked)
+		: checkBoxInput.removeAttribute("checked");
 
 	checkBoxLabel.appendChild(checkBoxInput);
 
@@ -131,9 +262,12 @@ function createArticle(id, sectionClassName, _articleName, _articleAmt) {
 	firstDiv.appendChild(secondDiv);
 
 	const articleName = document.createElement("h3");
-	articleName.textContent = _articleName.value || _articleName;
+	articleName.textContent = _articleName;
 	const articleAmt = document.createElement("p");
-	articleAmt.textContent = `$${_articleAmt.value || _articleAmt}`; // need to set "-" ahead of negative value
+	console.log(sectionClassName);
+	articleAmt.textContent = `${
+		sectionClassName === ("debt" || "expense") ? "-$" + _articleAmt : "$" + _articleAmt
+	}`;
 
 	article.appendChild(firstDiv);
 	article.appendChild(articleName);
@@ -143,16 +277,34 @@ function createArticle(id, sectionClassName, _articleName, _articleAmt) {
 }
 
 // toggling the add forms (cancel button)
-addCancelFormBtn.addEventListener("click", (e) => {
-	//check which form is clicked on
-	const addFormParentNode = e.target.parentNode.parentNode;
+addCancelFormBtns.forEach((addCancelFormBtn) => {
+	addCancelFormBtn.addEventListener("click", (e) => {
+		//check which form is clicked on
+		const addFormParentNode = e.target.parentNode.parentNode;
 
-	switch (addFormParentNode) {
-		case addFormAccounts:
-			addAccountName.value = "";
-			addAccountAmt.value = "";
-			addFormAccounts.classList.toggle("addFormHide");
-	}
+		switch (addFormParentNode) {
+			case addFormAccounts:
+				addAccountName.value = "";
+				addAccountAmt.value = "";
+				addFormAccounts.classList.toggle("addFormHide");
+				break;
+			case addFormDebts:
+				addDebtName.value = "";
+				addDebtAmt.value = "";
+				addFormDebts.classList.toggle("addFormHide");
+				break;
+			case addFormExpenses:
+				addExpenseName.value = "";
+				addExpenseAmt.value = "";
+				addFormExpenses.classList.toggle("addFormHide");
+				break;
+			case addFormIncomes:
+				addIncomeName.value = "";
+				addIncomeAmt.value = "";
+				addFormIncomes.classList.toggle("addFormHide");
+				break;
+		}
+	});
 });
 
 // selected main for bubbling and event propagation
@@ -160,10 +312,10 @@ const main = document.querySelector("main");
 
 let currentEditingArticleId;
 
-// editing & deleting & checking articles
+// editing & deleting & checking dymanic generated articles
 main.addEventListener("click", (e) => {
 	if (e.target.closest(".delArticleBtn")) {
-		const articleId = e.target.getAttribute("id");
+		const articleId = e.target.getAttribute("id").slice(3); // removing "del" prefix from id
 		const parentArticle = e.target.parentNode.parentNode.parentNode;
 		const articleSection = parentArticle.className;
 		articleReducer("delete", articleSection, { id: articleId });
@@ -172,22 +324,28 @@ main.addEventListener("click", (e) => {
 	if (e.target.closest(".editArticleBtn")) {
 		const parentArticle = e.target.parentNode.parentNode.parentNode;
 		const articleSection = parentArticle.className;
-		const articleId = e.target.getAttribute("id");
+		const articleId = e.target.getAttribute("id").slice(4); // removing "edit" prefix from id
 		currentEditingArticleId = articleId;
-		const article = state[articleSection].find((_article) => `edit${_article.id}` === articleId);
+		const article = state[articleSection].find((_article) => _article.id === articleId);
 		toggleEditForm(articleSection, article.articleName, article.articleAmt);
 	}
 	if (e.target.closest("input[type=checkbox]")) {
 		const parentArticle = e.target.parentNode.parentNode.parentNode;
 		const articleSection = parentArticle.className;
-		const articleId = e.target.getAttribute("id");
-		articleReducer("check", articleSection, { articleId });
+		const articleId = e.target.getAttribute("id").slice(5); // removing "edit" prefix from id;
+		articleReducer("check", articleSection, { id: articleId });
 	}
 });
 
 // main edit form inputs
 const editAccountName = document.getElementById("editAccountName");
 const editAccountAmt = document.getElementById("editAccountAmt");
+const editDebtName = document.getElementById("editDebtName");
+const editDebtAmt = document.getElementById("editDebtAmt");
+const editExpenseName = document.getElementById("editExpenseName");
+const editExpenseAmt = document.getElementById("editExpenseAmt");
+const editIncomeName = document.getElementById("editIncomeName");
+const editIncomeAmt = document.getElementById("editIncomeAmt");
 
 // need to make a new edit form in html and then make it toggle and then click edit btn and then change the state
 function toggleEditForm(section, name, amt) {
@@ -196,56 +354,147 @@ function toggleEditForm(section, name, amt) {
 			editFormAccounts.classList.toggle("editFormHide");
 			editAccountName.value = name;
 			editAccountAmt.value = amt;
+			break;
+		case "debt":
+			editFormDebts.classList.toggle("editFormHide");
+			editDebtName.value = name;
+			editDebtAmt.value = amt;
+			break;
+		case "expense":
+			editFormExpenses.classList.toggle("editFormHide");
+			editExpenseName.value = name;
+			editExpenseAmt.value = amt;
+			break;
+		case "income":
+			editFormIncomes.classList.toggle("editFormHide");
+			editIncomeName.value = name;
+			editIncomeAmt.value = amt;
+			break;
 	}
 }
 
 // edit form buttons
-const editFormBtn = document.querySelector(".editFormBtn"); // for every single add button on edit forms
-const editCancelFormBtn = document.querySelector(".editCancelFormBtn"); // for every single cancel button on edit forms
+const editFormBtns = document.querySelectorAll(".editFormBtn"); // for every single add button on edit forms
+const editCancelFormBtns = document.querySelectorAll(".editCancelFormBtn"); // for every single cancel button on edit forms
 
 // editing article for every section
-editFormBtn.addEventListener("click", (e) => {
-	//check which form is clicked on
-	const editFormParentNode = e.target.parentNode.parentNode;
+editFormBtns.forEach((editFormBtn) => {
+	editFormBtn.addEventListener("click", (e) => {
+		//check which form is clicked on
+		const editFormParentNode = e.target.parentNode.parentNode;
+		let isNotEmptyForm;
+		switch (editFormParentNode) {
+			case editFormAccounts:
+				isNotEmptyForm = checkEmptyAddForm(editAccountName, editAccountAmt);
 
-	switch (editFormParentNode) {
-		case editFormAccounts:
-			const isNotEmptyForm = checkEmptyAddForm(editAccountName, editAccountAmt);
+				if (isNotEmptyForm) {
+					articleReducer("edit", "account", {
+						id: currentEditingArticleId,
+						editName: editAccountName.value,
+						editAmt: editAccountAmt.value,
+					});
+					updateUI(currentEditingArticleId, editAccountName.value, editAccountAmt.value);
+					editFormAccounts.classList.toggle("editFormHide");
+				} else {
+					setTimeout(() => {
+						editAccountName.style.outline = "none";
+						editAccountAmt.style.outline = "none";
+					}, 2000);
+				}
+				break;
+			case editFormDebts:
+				isNotEmptyForm = checkEmptyAddForm(editDebtName, editDebtAmt);
 
-			if (isNotEmptyForm) {
-				articleReducer("edit", "account", {
-					id: currentEditingArticleId,
-					editAccountName,
-					editAccountAmt,
-				});
-				updateUI(currentEditingArticleId, editAccountName.value, editAccountAmt.value);
-				editFormAccounts.classList.toggle("editFormHide");
-			} else {
-				setTimeout(() => {
-					editAccountName.style.outline = "none";
-					editAccountAmt.style.outline = "none";
-				}, 2000);
-			}
-			break;
-	}
+				if (isNotEmptyForm) {
+					articleReducer("edit", "debt", {
+						id: currentEditingArticleId,
+						editName: editDebtName.value,
+						editAmt: editDebtAmt.value,
+					});
+					updateUI(currentEditingArticleId, editDebtName.value, editDebtAmt.value);
+					editFormDebts.classList.toggle("editFormHide");
+				} else {
+					setTimeout(() => {
+						editDebtName.style.outline = "none";
+						editDebtAmt.style.outline = "none";
+					}, 2000);
+				}
+				break;
+			case editFormExpenses:
+				isNotEmptyForm = checkEmptyAddForm(editExpenseName, editExpenseAmt);
+
+				if (isNotEmptyForm) {
+					articleReducer("edit", "expense", {
+						id: currentEditingArticleId,
+						editName: editExpenseName.value,
+						editAmt: editExpenseAmt.value,
+					});
+					updateUI(currentEditingArticleId, editExpenseName.value, editExpenseAmt.value);
+					editFormExpenses.classList.toggle("editFormHide");
+				} else {
+					setTimeout(() => {
+						editExpenseName.style.outline = "none";
+						editExpenseAmt.style.outline = "none";
+					}, 2000);
+				}
+				break;
+			case editFormIncomes:
+				isNotEmptyForm = checkEmptyAddForm(editIncomeName, editIncomeAmt);
+
+				if (isNotEmptyForm) {
+					articleReducer("edit", "income", {
+						id: currentEditingArticleId,
+						editName: editIncomeName.value,
+						editAmt: editIncomeAmt.value,
+					});
+					updateUI(currentEditingArticleId, editIncomeName.value, editIncomeAmt.value);
+					editFormIncomes.classList.toggle("editFormHide");
+				} else {
+					setTimeout(() => {
+						editIncomeName.style.outline = "none";
+						editIncomeAmt.style.outline = "none";
+					}, 2000);
+				}
+				break;
+		}
+		currentEditingArticleId = "";
+	});
 });
 
 // toggling the add forms (cancel button)
-editCancelFormBtn.addEventListener("click", (e) => {
-	//check which form is clicked on
-	const editFormParentNode = e.target.parentNode.parentNode;
+editCancelFormBtns.forEach((editCancelFormBtn) => {
+	editCancelFormBtn.addEventListener("click", (e) => {
+		//check which form is clicked on
+		const editFormParentNode = e.target.parentNode.parentNode;
 
-	switch (editFormParentNode) {
-		case editFormAccounts:
-			editAccountName.value = "";
-			editAccountAmt.value = "";
-			editFormAccounts.classList.toggle("editFormHide");
-	}
+		switch (editFormParentNode) {
+			case editFormAccounts:
+				editAccountName.value = "";
+				editAccountAmt.value = "";
+				editFormAccounts.classList.toggle("editFormHide");
+				break;
+			case editFormDebts:
+				editDebtName.value = "";
+				editDebtAmt.value = "";
+				editFormDebts.classList.toggle("editFormHide");
+				break;
+			case editFormExpenses:
+				editExpenseName.value = "";
+				editExpenseAmt.value = "";
+				editFormExpenses.classList.toggle("editFormHide");
+				break;
+			case editFormIncomes:
+				editIncomeName.value = "";
+				editIncomeAmt.value = "";
+				editFormIncomes.classList.toggle("editFormHide");
+				break;
+		}
+	});
 });
 
 // updating UI
 function updateUI(id, name, amt) {
-	const editedArticle = document.getElementById(id).parentNode.parentNode.parentNode;
+	const editedArticle = document.getElementById(id);
 	const editedArticleH3 = editedArticle.querySelector("h3");
 	const editedArticleP = editedArticle.querySelector("p");
 	editedArticleH3.textContent = name;
@@ -276,43 +525,104 @@ function updateAllUI() {
 	}, []);
 	if (articles) {
 		articles.map((article) => {
-			const { id, articleName, articleAmt, sectionClassName } = article;
-			const switchConditional = addFormAccounts.className
-				.split(" ")[1]
-				.toLowerCase()
-				.replace("addform", "");
-			switch (switchConditional) {
-				case switchConditional:
-					addFormAccounts.before(createArticle(id, sectionClassName, articleName, articleAmt));
+			const { id, articleName, articleAmt, sectionClassName, checked } = article;
+			switch (sectionClassName) {
+				case switchConditionals.account:
+					addFormAccounts.before(
+						createArticle(id, sectionClassName, articleName, articleAmt, checked)
+					);
+					break;
+				case switchConditionals.debt:
+					addFormDebts.before(
+						createArticle(id, sectionClassName, articleName, articleAmt, checked)
+					);
+					break;
+				case switchConditionals.expense:
+					addFormExpenses.before(
+						createArticle(id, sectionClassName, articleName, articleAmt, checked)
+					);
+					break;
+				case switchConditionals.income:
+					addFormIncomes.before(
+						createArticle(id, sectionClassName, articleName, articleAmt, checked)
+					);
 					break;
 			}
 		});
 	}
 }
 
-updateAllUI();
+// updating net amount
+
+const netAmount = document.querySelector(".netAmount > p");
+
+function updateNetAmount() {
+	// check for all checked articles in every single section
+	// add and subtract them based on the section they are from
+	// accounts - debts - expenses + incomes
+	// get articles from all four of these also
+
+	let _netAmount = Object.entries(state).reduce((totalAmt, section) => {
+		let sectionName = section[0];
+		let articles = section[1];
+		switch (sectionName) {
+			case "account":
+				totalAmt += articles.reduce((sectionAmt, article) => {
+					if (article.checked) {
+						sectionAmt += Number(article.articleAmt);
+					}
+					return sectionAmt;
+				}, 0);
+				break;
+			case "debt":
+				totalAmt += articles.reduce((sectionAmt, article) => {
+					if (article.checked) {
+						sectionAmt -= Number(article.articleAmt);
+					}
+					return sectionAmt;
+				}, 0);
+				break;
+			case "expense":
+				totalAmt += articles.reduce((sectionAmt, article) => {
+					if (article.checked) {
+						sectionAmt -= Number(article.articleAmt);
+					}
+					return sectionAmt;
+				}, 0);
+				break;
+			case "income":
+				totalAmt += articles.reduce((sectionAmt, article) => {
+					if (article.checked) {
+						sectionAmt += Number(article.articleAmt);
+					}
+					return sectionAmt;
+				}, 0);
+				break;
+		}
+		return totalAmt;
+	}, 0);
+	netAmount.textContent = `$${_netAmount}`;
+}
 
 function updateLocalStorage(state) {
 	localStorage.setItem("budgetly-state", JSON.stringify(state));
 }
 
 function articleReducer(action, section, article) {
-	let _section;
 	switch (action) {
 		case "add":
-			_section = state[section];
-			_section.push(article);
+			state[section].push(article);
 			break;
 		case "delete":
-			state[section] = state[section].filter((_article) => `del${_article.id}` !== article.id);
+			state[section] = state[section].filter((_article) => _article.id !== article.id);
 			break;
 		case "edit":
 			state[section] = state[section].map((_article) => {
-				if (`del${_article.id}` !== article.id) {
+				if (_article.id === article.id) {
 					return {
 						..._article,
-						articleName: editAccountName.value,
-						articleAmt: editAccountAmt.value,
+						articleName: article.editName,
+						articleAmt: article.editAmt,
 					};
 				}
 				return _article;
@@ -320,7 +630,7 @@ function articleReducer(action, section, article) {
 			break;
 		case "check":
 			state[section] = state[section].map((_article) => {
-				if (`check${_article.id}` !== article.id) {
+				if (_article.id === article.id) {
 					return {
 						..._article,
 						checked: !_article.checked,
@@ -328,9 +638,12 @@ function articleReducer(action, section, article) {
 				}
 				return _article;
 			});
-            break;
+			break;
 	}
 	updateLocalStorage(state);
+	updateNetAmount();
 }
 
-// calculating net amount
+// calculating UI & net amount on load with stored state
+updateAllUI();
+updateNetAmount();

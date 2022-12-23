@@ -39,13 +39,13 @@
                             <label for="addAccountName">
                                 Name:
                             </label>
-                            <input type="text" name="addName" id="addAccountName" value="a">
+                            <input type="text" name="addName" id="addAccountName">
                         </div>
                         <div>
                             <label for="addAccountAmt">
                                 Amount:
                             </label>
-                            <input type="number" name="addAmt" id="addAccountAmt" value="10">
+                            <input type="number" name="addAmt" id="addAccountAmt">
                         </div>
                     </div>
                     <div class="addFormBtns">
@@ -81,19 +81,46 @@
                 <button class="btn-primary addDebtsBtn">Add</button>
             </div>
             <div class="debts section">
-                <!-- <article class="debt">
-                    <div>
-                        <label for="selectItem">
-                            <input type="checkbox" name="selectItem" id="selectItem">
-                        </label>
+                <article class="addForm addFormDebts addFormHide">
+                    <div class="addFormInputs">
                         <div>
-                            <span>E</span>
-                            <span>D</span>
+                            <label for="addDebtName">
+                                Name:
+                            </label>
+                            <input type="text" name="addName" id="addDebtName">
+                        </div>
+                        <div>
+                            <label for="addDebtAmt">
+                                Amount:
+                            </label>
+                            <input type="number" name="addAmt" id="addDebtAmt">
                         </div>
                     </div>
-                    <h3>Credit Card</h3>
-                    <p>-$1000</p>
-                </article> -->
+                    <div class="addFormBtns">
+                        <button class="btn-primary addFormBtn">ADD</button>
+                        <button type="reset" class="btn-primary addCancelFormBtn">CANCEL</button>
+                    </div>
+                </article>
+                <article class="editForm editFormDebts editFormHide">
+                    <div class="editFormInputs">
+                        <div>
+                            <label for="editDebtName">
+                                Name:
+                            </label>
+                            <input type="text" name="editName" id="editDebtName">
+                        </div>
+                        <div>
+                            <label for="editDebtAmt">
+                                Amount:
+                            </label>
+                            <input type="number" name="editAmt" id="editDebtAmt">
+                        </div>
+                    </div>
+                    <div class="editFormBtns">
+                        <button class="btn-primary editFormBtn">EDIT</button>
+                        <button type="reset" class="btn-primary editCancelFormBtn">CANCEL</button>
+                    </div>
+                </article>
             </div>
         </section>
         <section>
@@ -102,19 +129,46 @@
                 <button class="btn-primary addExpensesBtn">Add</button>
             </div>
             <div class="expenses section">
-                <!-- <article class="expense">
-                    <div>
-                        <label for="selectItem">
-                            <input type="checkbox" name="selectItem" id="selectItem">
-                        </label>
+                <article class="addForm addFormExpenses addFormHide">
+                    <div class="addFormInputs">
                         <div>
-                            <span>E</span>
-                            <span>D</span>
+                            <label for="addExpenseName">
+                                Name:
+                            </label>
+                            <input type="text" name="addName" id="addExpenseName">
+                        </div>
+                        <div>
+                            <label for="addExpenseAmt">
+                                Amount:
+                            </label>
+                            <input type="number" name="addAmt" id="addExpenseAmt">
                         </div>
                     </div>
-                    <h3>Rent</h3>
-                    <p>-$700</p>
-                </article> -->
+                    <div class="addFormBtns">
+                        <button class="btn-primary addFormBtn">ADD</button>
+                        <button type="reset" class="btn-primary addCancelFormBtn">CANCEL</button>
+                    </div>
+                </article>
+                <article class="editForm editFormExpenses editFormHide">
+                    <div class="editFormInputs">
+                        <div>
+                            <label for="editExpenseName">
+                                Name:
+                            </label>
+                            <input type="text" name="editName" id="editExpenseName">
+                        </div>
+                        <div>
+                            <label for="editExpenseAmt">
+                                Amount:
+                            </label>
+                            <input type="number" name="editAmt" id="editExpenseAmt">
+                        </div>
+                    </div>
+                    <div class="editFormBtns">
+                        <button class="btn-primary editFormBtn">EDIT</button>
+                        <button type="reset" class="btn-primary editCancelFormBtn">CANCEL</button>
+                    </div>
+                </article>
             </div>
         </section>
         <section>
@@ -123,19 +177,46 @@
                 <button class="btn-primary addIncomesBtn">Add</button>
             </div>
             <div class="incomes section">
-                <!-- <article class="income">
-                    <div>
-                        <label for="selectItem">
-                            <input type="checkbox" name="selectItem" id="selectItem">
-                        </label>
+                <article class="addForm addFormIncomes addFormHide">
+                    <div class="addFormInputs">
                         <div>
-                            <span>E</span>
-                            <span>D</span>
+                            <label for="addIncomeName">
+                                Name:
+                            </label>
+                            <input type="text" name="addName" id="addIncomeName">
+                        </div>
+                        <div>
+                            <label for="addIncomeAmt">
+                                Amount:
+                            </label>
+                            <input type="number" name="addAmt" id="addIncomeAmt">
                         </div>
                     </div>
-                    <h3>Pay</h3>
-                    <p>$1000</p>
-                </article> -->
+                    <div class="addFormBtns">
+                        <button class="btn-primary addFormBtn">ADD</button>
+                        <button type="reset" class="btn-primary addCancelFormBtn">CANCEL</button>
+                    </div>
+                </article>
+                <article class="editForm editFormIncomes editFormHide">
+                    <div class="editFormInputs">
+                        <div>
+                            <label for="editIncomeName">
+                                Name:
+                            </label>
+                            <input type="text" name="editName" id="editIncomeName">
+                        </div>
+                        <div>
+                            <label for="editIncomeAmt">
+                                Amount:
+                            </label>
+                            <input type="number" name="editAmt" id="editIncomeAmt">
+                        </div>
+                    </div>
+                    <div class="editFormBtns">
+                        <button class="btn-primary editFormBtn">EDIT</button>
+                        <button type="reset" class="btn-primary editCancelFormBtn">CANCEL</button>
+                    </div>
+                </article>
             </div>
         </section>
     </main>
