@@ -610,7 +610,7 @@ function updateNetAmount() {
 		}
 		return totalAmt;
 	}, 0);
-	netAmount.textContent = `$${_netAmount}`;
+	netAmount.textContent = `$${_netAmount.toFixed(2)}`;
 }
 
 function updateLocalStorage(state) {
