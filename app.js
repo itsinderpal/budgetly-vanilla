@@ -62,9 +62,9 @@ const addAccountAmt = document.getElementById("addAccountAmt");
 const addDebtName = document.getElementById("addDebtName");
 const addDebtAmt = document.getElementById("addDebtAmt");
 const addExpenseName = document.getElementById("addExpenseName");
-const addExpenseAmt = document.getElementById("addExpenseName");
+const addExpenseAmt = document.getElementById("addExpenseAmt");
 const addIncomeName = document.getElementById("addIncomeName");
-const addIncomeAmt = document.getElementById("addIncomeName");
+const addIncomeAmt = document.getElementById("addIncomeAmt");
 
 function clearInputValues() {
 	addAccountName.value = "";
@@ -102,7 +102,8 @@ addFormBtns.forEach((addFormBtn) => {
 						articleId,
 						"account",
 						addAccountName.value,
-						addAccountAmt.value
+						addAccountAmt.value,
+						true
 					);
 					let newArticleObj = {
 						id: articleId,
@@ -126,13 +127,20 @@ addFormBtns.forEach((addFormBtn) => {
 
 				if (isNotEmptyForm) {
 					const articleId = randomId();
-					const articleEl = createArticle(articleId, "debt", addDebtName.value, addDebtAmt.value);
+					true;
+					const articleEl = createArticle(
+						articleId,
+						"debt",
+						addDebtName.value,
+						addDebtAmt.value,
+						true
+					);
 
 					let newArticleObj = {
 						id: articleId,
 						articleName: addDebtName.value,
 						articleAmt: addDebtAmt.value,
-						checked: false,
+						checked: true,
 					};
 					articleReducer("add", "debt", newArticleObj);
 					addFormDebts.before(articleEl);
@@ -154,14 +162,15 @@ addFormBtns.forEach((addFormBtn) => {
 						articleId,
 						"expense",
 						addExpenseName.value,
-						addExpenseAmt.value
+						addExpenseAmt.value,
+						true
 					);
 
 					let newArticleObj = {
 						id: articleId,
 						articleName: addExpenseName.value,
 						articleAmt: addExpenseAmt.value,
-						checked: false,
+						checked: true,
 					};
 					articleReducer("add", "expense", newArticleObj);
 					addFormExpenses.before(articleEl);
@@ -183,14 +192,15 @@ addFormBtns.forEach((addFormBtn) => {
 						articleId,
 						"income",
 						addIncomeName.value,
-						addIncomeAmt.value
+						addIncomeAmt.value,
+						true
 					);
 
 					let newArticleObj = {
 						id: articleId,
 						articleName: addIncomeName.value,
 						articleAmt: addIncomeAmt.value,
-						checked: false,
+						checked: true,
 					};
 					articleReducer("add", "income", newArticleObj);
 					addFormIncomes.before(articleEl);
@@ -227,7 +237,7 @@ function checkEmptyAddForm(nameInput, amtInput) {
 }
 
 // specific function for creating article
-function createArticle(id, sectionClassName, _articleName, _articleAmt, checked = false) {
+function createArticle(id, sectionClassName, _articleName, _articleAmt, checked) {
 	const article = document.createElement("article");
 	article.className = sectionClassName;
 	article.setAttribute("id", id);
@@ -264,7 +274,6 @@ function createArticle(id, sectionClassName, _articleName, _articleAmt, checked 
 	const articleName = document.createElement("h3");
 	articleName.textContent = _articleName;
 	const articleAmt = document.createElement("p");
-	console.log(sectionClassName);
 	articleAmt.textContent = `${
 		sectionClassName === ("debt" || "expense") ? "-$" + _articleAmt : "$" + _articleAmt
 	}`;
