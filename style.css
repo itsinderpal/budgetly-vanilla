@@ -53,8 +53,9 @@ section {
 
 .accounts, .debts, .expenses, .incomes {
     display: grid;
-    grid-template-columns: repeat(5, 15rem);
-    grid-column-gap: 1em;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1em;
+    justify-content: center;
 }
 
 .account, .debt,.expense, .income {
@@ -138,4 +139,71 @@ footer > h2 {
 
 .addFormHide, .editFormHide {
     display: none;
+}
+
+@media screen and (max-width: 2560px) {
+
+    html {
+        font-size: 1.5rem;
+    }
+
+    .section {
+        grid-template-columns: repeat(5, 1fr);
+    }
+
+}
+
+@media screen and (max-width: 1440px) {
+
+    html {
+        font-size: 1.125rem;
+    }
+
+    .section {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+}
+
+@media screen and (max-width: 1024px) {
+
+    html {
+        font-size: 1rem;
+    }
+
+    .section {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+}
+
+@media screen and (max-width: 896px) {
+
+    .section {
+        grid-template-columns: repeat(3, 1fr);
+        justify-content: center;
+    }
+
+}
+
+@media screen and (max-width: 768px) {
+
+    html {
+        font-size: 1rem;
+    }
+
+    .section {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        justify-content: center;
+    }
+
+}
+
+@media screen and (max-width: 320px) {
+
+    html {
+        font-size: .875rem;
+    }
+
 }

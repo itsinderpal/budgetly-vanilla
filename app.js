@@ -108,7 +108,7 @@ addFormBtns.forEach((addFormBtn) => {
 						id: articleId,
 						articleName: addAccountName.value,
 						articleAmt: addAccountAmt.value,
-						checked: false,
+						checked: true,
 					};
 					articleReducer("add", "account", newArticleObj);
 					addFormAccounts.before(articleEl);
